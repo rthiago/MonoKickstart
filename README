@@ -27,4 +27,8 @@ Additionally, modify "Kick" to run those newly named kick binaries rather than
 the generic "kick" name. The name of "Kick" itself can be whatever you like.
 
 If you wish to use additional shared libraries (for instance, libSDL2), simply
-add the library to the architecture's lib folder (where we have placed libmono).
+add the library to the architecture's lib folder:
+
+Linux (32-bit): lib/
+Linux (64-bit): lib64/
+Mac OSX (Universal): osx/
