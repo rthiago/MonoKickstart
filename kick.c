@@ -134,5 +134,6 @@ int main (int argc, char* argv[])
 #endif
 	newargs [k] = NULL;
 
+	setenv("MONO_CONFIG", "monoconfig", 0);
 	return mono_main (k, newargs);
 }
