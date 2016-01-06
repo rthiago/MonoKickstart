@@ -3,8 +3,7 @@ PROJECT(kick)
 
 OPTION(FORCE32 "Force a 32bit compile on 64bit" OFF)
 if (APPLE)
-    SET(CMAKE_C_FLAGS "-arch i386 -arch x86_64")
-    SET(CMAKE_CXX_FLAGS "-arch i386 -arch x86_64")
+    SET(CMAKE_OSX_DEPLOYMENT_TARGET 10.7)
 elseif(FORCE32)
     SET(CMAKE_C_FLAGS "-m32")
     SET(CMAKE_CXX_FLAGS "-m32")
@@ -13,15 +12,19 @@ endif()
 if (APPLE)
     SET(BIN_LIBROOT "osx")
     SET(CMAKE_EXECUTABLE_SUFFIX ".bin.osx")
-    INCLUDE_DIRECTORIES(/Library/Frameworks/Mono.framework/Headers/mono-2.0)
+    SET(CMAKE_EXE_LINKER_FLAGS "-framework Foundation")
+    SET(KICKLIBS iconv)
+    # INCLUDE_DIRECTORIES(/usr/local/include)
 elseif (CMAKE_SIZEOF_VOID_P MATCHES "8" AND NOT(FORCE32))
     SET(BIN_LIBROOT "lib64")
     SET(CMAKE_EXECUTABLE_SUFFIX ".bin.x86_64")
     SET(BIN_RPATH "\$ORIGIN/lib64")
+    SET(KICKLIBS m rt dl)
 else()
     SET(BIN_LIBROOT "lib")
     SET(CMAKE_EXECUTABLE_SUFFIX ".bin.x86")
     SET(BIN_RPATH "\$ORIGIN/lib")
+    SET(KICKLIBS m rt dl)
 endif()
 
 ADD_DEFINITIONS(-DENABLE_BINRELOC)
@@ -36,14 +39,12 @@ SET(SOURCE
     binreloc.c
 )
 
-LINK_DIRECTORIES(
-    ${CMAKE_SOURCE_DIR}/precompiled/${BIN_LIBROOT}
-)
-
 ADD_EXECUTABLE(kick
     ${SOURCE}
 )
 
 TARGET_LINK_LIBRARIES(kick
-    mono-2.0
+    ${CMAKE_SOURCE_DIR}/libmonosgen-2.0.a
+    ${KICKLIBS}
+    pthread
 )
