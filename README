@@ -32,3 +32,14 @@ add the library to the architecture's lib folder:
 Linux (32-bit): lib/
 Linux (64-bit): lib64/
 Mac OSX (Universal): osx/
+
+Building for OSX
+----------------
+
+For OSX we need Universal binaries. By default the make command from SDL will only build 64 bit.
+The following commands should be used to generate a universal binary
+
+'''
+  ./configure --disable-dependency-tracking
+  make CXXFLAGS="-arch i386 -arch x86_64" CFLAGS="-arch i386 -arch x86_64" LDFLAGS="-arch i386 -arch x86_64"
+'''
