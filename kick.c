@@ -120,6 +120,7 @@ int main (int argc, char* argv[])
 	}
 	free(exe);
 
+	newargs [k++] = "-O=-aot";
 	newargs [k++] = image_name;
 
 	for (i = 1; i < argc; i++) {
@@ -135,5 +136,7 @@ int main (int argc, char* argv[])
 	newargs [k] = NULL;
 
 	setenv("MONO_CONFIG", "monoconfig", 0);
+	setenv("MONO_XMLSERIALIZER_THS", "no", 1);
+	setenv("MONO_REFLECTION_SERIALIZER", "yes", 1);
 	return mono_main (k, newargs);
 }

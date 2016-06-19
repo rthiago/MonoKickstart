@@ -36,10 +36,36 @@ Mac OSX (Universal): osx/
 Building for OSX
 ----------------
 
-For OSX we need Universal binaries. By default the make command from SDL will only build 64 bit.
+For OSX we need Universal binaries. By default the cmake command from SDL will only build 64 bit.
 The following commands should be used to generate a universal binary
 
 '''
-  ./configure --disable-dependency-tracking
-  make CXXFLAGS="-arch i386 -arch x86_64" CFLAGS="-arch i386 -arch x86_64" LDFLAGS="-arch i386 -arch x86_64"
+  cmake -DCMAKE_OSX_ARCHITECTURES="i386;x86_64"  $(PATH_TO_CMakeLists.txt)
+  make
 '''
+
+To build the mcs.bin.osx universal binary we need to use mkbundle and lipo to create
+the binary manually
+
+'''
+# Ensure it can find pkg-config:
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/pkgconfig:/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig
+
+# Force 32bit build:
+export AS="as -arch i386"
+export CC="cc -arch i386 -lobjc -liconv -framework Foundation"
+
+mkbundle -o mcs.i386.bin /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/mcs.exe
+
+# Force 64bit build 
+export AS="as -arch x86_64"
+export CC="cc -arch x86_64 -lobjc -liconv -framework Foundation"
+
+mkbundle -o mcs.x86_64.bin /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/mcs.exe
+
+# create our universal binary
+lipo -create mcs.i386.bin mcs.x86_64.bin -output mcs.bin.osx
+
+'''
+
+
