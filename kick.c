@@ -67,7 +67,7 @@ int main (int argc, char* argv[])
 	wchar_t **wargv = CommandLineToArgvW (GetCommandLineW (), &argc);
 #endif
 
-	newargs = (char **) malloc (sizeof (char *) * (argc + 2) + count_mono_options_args ());
+	newargs = (char **) malloc (sizeof (char *) * (argc + 3) + count_mono_options_args ());
 
 #ifdef _WIN32
 	newargs [k++] = g_utf16_to_utf8 (wargv [0], -1, NULL, NULL, NULL);
