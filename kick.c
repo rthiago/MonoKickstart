@@ -138,5 +138,6 @@ int main (int argc, char* argv[])
 	setenv("MONO_CONFIG", "monoconfig", 0);
 	setenv("MONO_XMLSERIALIZER_THS", "no", 1);
 	setenv("MONO_REFLECTION_SERIALIZER", "yes", 1);
+	setenv("LD_PRELOAD", "", 1);
 	return mono_main (k, newargs);
 }
