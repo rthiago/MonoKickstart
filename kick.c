@@ -116,6 +116,13 @@ int main (int argc, char* argv[])
 		pos = strstr(image_name,".bin.");
 		if (pos != NULL) {
 			strcpy(pos, ".exe");
+		} else {
+			pos = strrchr(exe, '/');
+			if (pos != NULL) {
+				image_name = malloc(strlen(pos+1)+5);
+				strcat(image_name, pos+1);
+				strcat(image_name, ".exe");
+			}
 		}
 	}
 	free(exe);
@@ -135,8 +142,17 @@ int main (int argc, char* argv[])
 #endif
 	newargs [k] = NULL;
 
-	setenv("MONO_CONFIG", "monoconfig", 0);
-	setenv("MONO_CFG_DIR", ".", 1);
+	if (access ("./mono/config", F_OK) == 0) {
+		setenv("MONO_CFG_DIR", ".", 1);
+	}
+	// for mac packaging put the mono directory in resources
+	// otherwise signing will fail
+	if (access ("../Resources/mono/config", F_OK) == 0) {
+		setenv("MONO_CFG_DIR", "../Resources/", 1);
+	}
+	if (access ("../MonoBundle/mscorlib.dll", F_OK) == 0) {
+		setenv ("MONO_PATH", "../MonoBundle", 1);
+	}
 	setenv("LD_PRELOAD", "", 1);
 	return mono_main (k, newargs);
 }
