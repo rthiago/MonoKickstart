@@ -55,13 +55,13 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/pkgconfig:/Library/Frameworks/M
 export AS="as -arch i386"
 export CC="cc -arch i386 -lobjc -liconv -framework Foundation"
 
-mkbundle -o mcs.i386.bin /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/mcs.exe
+mkbundle -o mcs.i386.bin -L /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/ /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/mcs.exe
 
 # Force 64bit build 
 export AS="as -arch x86_64"
 export CC="cc -arch x86_64 -lobjc -liconv -framework Foundation"
 
-mkbundle -o mcs.x86_64.bin /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/mcs.exe
+mkbundle -o mcs.x86_64.bin -L /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/ /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/mcs.exe
 
 # create our universal binary
 lipo -create mcs.i386.bin mcs.x86_64.bin -output mcs.bin.osx
