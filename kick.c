@@ -126,7 +126,7 @@ int main (int argc, char* argv[])
 		}
 	}
 	free(exe);
-
+	
 	newargs [k++] = "-O=-aot";
 	newargs [k++] = image_name;
 
@@ -147,11 +147,12 @@ int main (int argc, char* argv[])
 	}
 	// for mac packaging put the mono directory in resources
 	// otherwise signing will fail
+	if (access ("../MonoBundle/mscorlib.dll", F_OK) == 0) {
+		chdir("../MonoBundle");
+		setenv ("MONO_PATH", ".", 1);
+	}
 	if (access ("../Resources/mono/config", F_OK) == 0) {
 		setenv("MONO_CFG_DIR", "../Resources/", 1);
-	}
-	if (access ("../MonoBundle/mscorlib.dll", F_OK) == 0) {
-		setenv ("MONO_PATH", "../MonoBundle", 1);
 	}
 	setenv("LD_PRELOAD", "", 1);
 	return mono_main (k, newargs);
