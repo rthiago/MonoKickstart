@@ -1,0 +1,15 @@
+language: csharp
+os:
+ - osx
+ - linux
+compiler:
+  - clang
+  - gcc
+# Build steps
+# if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+script:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cp /Library/Frameworks/Mono.framework/Versions/Current/lib/libmonosgen-2.0.a ./ ; fi
+  - mkdir build
+  - cd build
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cmake -DCMAKE_OSX_ARCHITECTURES="i386;x86_64" .. && make ; fi
+
