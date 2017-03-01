@@ -132,12 +132,12 @@ IF(MONO_LOOK_FOR_LIBRARIES)
         SET(MONO_PKG_CONFIG ${MONO_FRAMEWORK}/Commands/pkg-config)
         SET(PKG_CONFIG_EXECUTABLE ${MONO_PKG_CONFIG})
         SET(PKG_CONFIG_FOUND TRUE)
-        #SET(MONO_INCLUDE_DIRS ${Mono_FRAMEWORKS}/Headers/mono-1.0
-        #                       ${Mono_FRAMEWORKS}/Headers/glib-2.0
-        #                       ${Mono_FRAMEWORKS}/Libraries/glib-2.0/include)
-        #SET(MONO_LIBRARY_DIRS ${Mono_FRAMEWORKS}/Libraries)
-        #SET(MONO_LIBRARIES mono  glib-2.0 intl iconv gthread-2.0)
-        #MESSAGE(STATUS "${MONO_INCLUDE_DIRS} XX ${MONO_LIBRARY_DIRS} YY ${MONO_LIBRARIES}")
+        SET(MONO_INCLUDE_DIRS ${Mono_FRAMEWORKS}/Headers/mono-2.0)
+        SET(MONO_LIBRARY_DIRS ${Mono_FRAMEWORKS}/Libraries)
+        SET(MONO_LIBRARIES mono intl iconv)
+        IF(MONO_INCLUDE_DIRS)
+          MESSAGE(STATUS "Include: ${MONO_INCLUDE_DIRS} LibraryPath: ${MONO_LIBRARY_DIRS} Libraries: ${MONO_LIBRARIES}")
+        ENDIF(MONO_INCLUDE_DIRS)
       ENDIF(Mono_FRAMEWORKS)
 
     ELSE(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
@@ -194,15 +194,15 @@ IF(MONO_EXECUTABLE AND EXISTS ${MONO_EXECUTABLE})
   GET_FILENAME_COMPONENT(MONO_EXECUTABLE_PATH ${MONO_EXECUTABLE_PATH} PATH)
 
   IF(WIN32)
-    SET(__MONO_PKG_CONFIG_PATH ${MONO_EXECUTABLE_PATH}/../lib/pkgconfig/mono.pc)
+    SET(__MONO_PKG_CONFIG_PATH ${MONO_EXECUTABLE_PATH}/../lib/pkgconfig/mono-2.pc)
   ELSEIF(APPLE)
     #something's funky with apple, absolute path resolution isn't getting rid of
     #symlinks but the existence test behaves as if it does, so we manually have to
     #adjust the path
     GET_FILENAME_COMPONENT(__MONO_PKG_CONFIG_PATH ${MONO_EXECUTABLE_PATH} PATH)
-    SET(__MONO_PKG_CONFIG_PATH ${__MONO_PKG_CONFIG_PATH}/Libraries/pkgconfig/mono.pc)
+    SET(__MONO_PKG_CONFIG_PATH ${__MONO_PKG_CONFIG_PATH}/Libraries/pkgconfig/mono-2.pc)
   ELSE()
-    SET(__MONO_PKG_CONFIG_PATH ${MONO_EXECUTABLE_PATH}/../lib/pkgconfig/mono.pc)
+    SET(__MONO_PKG_CONFIG_PATH ${MONO_EXECUTABLE_PATH}/../lib/pkgconfig/mono-2.pc)
   ENDIF()
 
   IF(EXISTS ${__MONO_PKG_CONFIG_PATH})
@@ -227,7 +227,7 @@ IF(MONO_FOUND)
 
     IF(MONO_LIBRARY_DIRS)
       MESSAGE(STATUS "Found Mono development files: headers at ${MONO_INCLUDE_DIRS}, libraries at ${MONO_LIBRARY_DIRS}")
-    ELSE(MONO_LIBRARY_DIRS)
+    ELSE(MONO_INCLUDE_DIRS)
       MESSAGE(STATUS "Found Mono development files: headers at ${MONO_INCLUDE_DIRS}")
     ENDIF(MONO_LIBRARY_DIRS)
   ENDIF(NOT MONO_FIND_QUIETLY)
