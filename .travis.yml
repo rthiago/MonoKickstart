@@ -17,9 +17,8 @@ script:
   - cd build
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/Library/Frameworks/Mono.framework/lib/pkgconfig ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/pkgconfig ; fi
-#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cmake .. ; fi
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cmake -DCMAKE_C_FLAGS="-m64" .. ; fi
-  - cmake ..
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cmake -DCMAKE_OSX_ARCHITECTURES="i386;x86_64" .. ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cmake -DCMAKE_C_FLAGS="-m64" .. ; fi
+# - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cmake -DCMAKE_C_FLAGS="-m32" .. && make ; fi
   - make
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cmake -DCMAKE_C_FLAGS="-m32" .. && make ; fi
   
