@@ -15,7 +15,7 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cp /usr/lib/libmonosgen-2.0.a ./ ; fi
   - mkdir build
   - cd build
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cmake -DCMAKE_OSX_ARCHITECTURES="i386;x86_64" .. ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cmake .. ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cmake -DCMAKE_C_FLAGS="-m64" .. ; fi
   - make
 #  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cmake -DCMAKE_C_FLAGS="-m32" .. && make ; fi
