@@ -1,0 +1,7 @@
+#!/bin/bash
+cd precompiled
+FILES=*.dll
+for f in $FILES
+do
+  cp /Library/Frameworks/Mono.framework/Libraries/mono/4.5/$f .
+done
