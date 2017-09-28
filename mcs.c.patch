@@ -1,0 +1,27 @@
+--- temp.c	2017-09-28 18:23:24.000000000 +0100
++++ temp.c.new	2017-09-28 18:26:31.000000000 +0100
+@@ -80,7 +80,7 @@
+ 	char **newargs;
+ 	int i, k = 0;
+ 
+-	newargs = (char **) malloc (sizeof (char *) * (argc + 2 + count_mono_options_args ()));
++	newargs = (char **) malloc (sizeof (char *) * (argc + 3 + count_mono_options_args ()));
+ 
+ 	newargs [k++] = argv [0];
+ 
+@@ -90,6 +90,7 @@
+ 			newargs[k++] = mono_options[i++];
+ 	}
+ 
++	newargs [k++] = "-O=-aot";
+ 	newargs [k++] = image_name;
+ 
+ 	for (i = 1; i < argc; i++) {
+@@ -101,6 +102,6 @@
+ 		mono_set_dirs (getenv ("MONO_PATH"), config_dir);
+ 	
+ 	mono_mkbundle_init();
+-
++	setenv("LD_PRELOAD", "", 1);
+ 	return mono_main (k, newargs);
+ }
