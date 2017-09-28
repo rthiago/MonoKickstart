@@ -6,6 +6,6 @@ echo "deb http://download.mono-project.com/repo/ubuntu precise main" | sudo tee 
 apt-get update
 apt-get --assume-yes install pkg-config cmake build-essential mono-devel
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/pkgconfig
-cp /usr/lib/libmonosgen-2.0.a ../
+cp /usr/lib/libmono-2.0.a ../libmonosgen-2.0.a
 cmake -DCMAKE_C_FLAGS="-m32" ..
 make
