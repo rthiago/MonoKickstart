@@ -2,9 +2,23 @@
 cp /Library/Frameworks/Mono.framework/Versions/Current/lib/libmonosgen-2.0.a ./
 mkdir build
 cd build
-export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/Library/Frameworks/Mono.framework/lib/pkgconfig
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/pkgconfig:/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig
 cmake -DCMAKE_OSX_ARCHITECTURES="i386;x86_64" ..
 make
+
+export AS="as -arch i386"
+export CC="cc -arch i386 -lobjc -liconv -framework Foundation"
+mkbundle --keeptemp -o mcs.i386.bin -L /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/ /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/mcs.exe
+patch temp.c ../mcs.c.patch
+cc -arch i386 -lobjc -liconv -framework Foundation -g -o 'mcs.i386.bin' -Wall temp.c `pkg-config --cflags --libs mono-2`  temp.o
+
+export AS="as -arch x86_64"
+export CC="cc -arch x86_64 -lobjc -liconv -framework Foundation"
+rm temp.*
+mkbundle --keeptemp -o mcs.x86_64.bin -L /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/ /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/mcs.exe
+patch temp.c ../mcs.c.patch
+cc -arch x86_64 -lobjc -liconv -framework Foundation -g -o 'mcs.x86_64.bin' -Wall temp.c `pkg-config --cflags --libs mono-2`  temp.o
+lipo -create mcs.i386.bin mcs.x86_64.bin -output mcs.bin.osx
 cd ..
 docker pull ubuntu:12.04
 docker pull erwinchang/ubuntu-12.04-32bit
