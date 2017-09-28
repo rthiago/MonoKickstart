@@ -30,6 +30,7 @@ else()
     SET(CMAKE_EXECUTABLE_SUFFIX ".bin.x86")
     SET(BIN_RPATH "\$ORIGIN/lib")
     SET(KICKLIBS m rt dl)
+    include_directories(${INCULDE_DIRECTORIES} /usr/include/mono-2.0)
 endif()
 
 ADD_DEFINITIONS(-DENABLE_BINRELOC)
