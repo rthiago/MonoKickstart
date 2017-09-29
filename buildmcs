@@ -1,7 +1,7 @@
 #!/bin/bash
 mkdir -p build
 cd build
-
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig
 export AS="as -arch i386"
 export CC="cc -arch i386 -lobjc -liconv -framework Foundation"
 mkbundle --keeptemp -o mcs.i386.bin -L /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/ /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/mcs.exe

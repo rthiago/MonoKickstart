@@ -16,7 +16,7 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cp /Library/Frameworks/Mono.framework/Versions/Current/lib/libmonosgen-2.0.a ./ ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir build ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cd build ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/Library/Frameworks/Mono.framework/lib/pkgconfig ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cmake -DCMAKE_OSX_ARCHITECTURES="i386;x86_64" .. ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then make ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cd .. ; fi
