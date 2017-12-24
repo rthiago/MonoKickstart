@@ -25,11 +25,11 @@ if [ "$UNAME" == "Darwin" ]; then
 		export DYLD_INSERT_LIBRARIES="$STEAM_DYLD_INSERT_LIBRARIES"
 	fi
 
-	./Yans.DesktopGL.bin.osx $@
+	./Yans.bin.osx $@
 else
 	if [ "$ARCH" == "x86_64" ]; then
-		./Yans.DesktopGL.bin.x86_64 $@
+		./Yans.bin.x86_64 $@
 	else
-		./Yans.DesktopGL.bin.x86 $@
+		./Yans.bin.x86 $@
 	fi
 fi
